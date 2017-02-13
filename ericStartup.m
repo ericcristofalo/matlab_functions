@@ -132,7 +132,7 @@ addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopenc
 
 %% Add My Own MATLAB Functions
 
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Functions/MATLAB'));
+addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions'));
 
 
 %% Set Default Current Working Directory
