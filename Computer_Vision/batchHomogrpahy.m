@@ -138,6 +138,3 @@ subplot(2,2,3); imshow(imWarped); title('Total Warped Image 1');
 imWarped = cv.warpPerspective(imTotal(totalInd).im, imTotal(totalInd).H_i0);
 subplot(2,2,4); imshow(imWarped); title('Total Warped Image n');
 
-
-
-

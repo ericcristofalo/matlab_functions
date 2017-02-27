@@ -33,7 +33,7 @@
 %% User Inputs
 
 % Directory of Files
-folderPath = '/Users/ericcristofalo/Desktop/Images';
+folderPath = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Trials/20161206/';
 
 % Current File Format
 currentFileFormat = 'jpg';
@@ -41,7 +41,7 @@ currentFileFormat = 'jpg';
 % Desired New File Names
 % Includes: new file name prefix, new starting number index, 
 %           and new file format
-desiredName = 'image_0010.jpg';
+desiredName = 'image_0001.jpg';
 
 
 %% Rename Files
