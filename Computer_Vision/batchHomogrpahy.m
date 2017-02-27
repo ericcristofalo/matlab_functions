@@ -1,8 +1,8 @@
 %--------------------------------------------------------------------------
 %
-% File Name:      DfF.m
+% File Name:      batchHomography.m
 % Date Created:   2017/01/10
-% Date Modified:  2017/01/12
+% Date Modified:  2017/02/26
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -24,20 +24,20 @@ clean('Figures',0);
 %% Initialization
 
 folderPath = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Trials/';
-folderList = {'20161206_01'};
+folderList = {'20170226/ex_00001'};
 imIndices = [1,30];
-outputFolderPath1 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170112_Nikon/H_12_size33.txt';
-outputFolderPath2 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170112_Nikon/H_i0_size33.txt';
+outputFolderPath1 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170226_Nikon/H_12.txt';
+outputFolderPath2 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170226_Nikon/H_i0.txt';
 
 % Total Indices Number
 totalInd = diff(imIndices)+1;
 totalTrials = size(folderList,2);
 
 % Image Numbering Convention
-imageName = 'img_';
+imageName = 'image_';
 imageExt = '.jpg';
-imageDigists = 3;
-imageDecimals = ['%0',num2str(imageDigists),'d'];
+imageDigits = 4;
+imageDecimals = ['%0',num2str(imageDigits),'d'];
 
 
 %% Compute Focus Measure
