@@ -1,6 +1,6 @@
 %--------------------------------------------------------------------------
 %
-% File Name:      postProcessing.m
+% File Name:      imRectify.m
 % Date Created:   2014/04/07
 % Date Modified:  2016/12/03
 %
@@ -9,6 +9,7 @@
 %
 % Description:    Image Rectification Function Given Euler Angles
 %                 Uses MATLAB's image processing function, maketform 
+%                 For use with relative Homography estimation
 %
 % Inputs:         im: input image
 %                 K: camera calibration matrix

@@ -2,7 +2,7 @@
 %
 % File Name:      saveFigures.m
 % Date Created:   2014/07/03
-% Date Modified:  2016/04/19
+% Date Modified:  2017/04/14
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -212,14 +212,19 @@ for i = figureRange
       set(gca, 'color', 'none');
       path = [path,extension];
       saveas(i,path);
-   elseif strcmp(extension,'jpg') || transparency(figureInd)==1
+   elseif strcmp(extension,'jpg')
       set(gca, 'color', 'w');
       set(gcf, 'color', 'w');
       path = [path,'jpg'];
       print(i,path,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
-   elseif strcmp(extension,'png') || transparency(figureInd)==1
-      set(gca, 'color', 'w');
-      set(gcf, 'color', 'w');
+   elseif strcmp(extension,'png') || (strcmp(extension,'pdf') && transparency(figureInd)==1)
+      if transparency(figureInd)==1
+         set(gca, 'color', 'none');
+         set(gcf, 'color', 'none');
+      else
+         set(gca, 'color', 'w');
+         set(gcf, 'color', 'w');
+      end
       path = [path,'png'];
       print(i,path,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
    elseif strcmp(extension,'eps')

@@ -24,10 +24,17 @@ clean('Figures',0);
 %% Initialization
 
 folderPath = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Trials/';
-folderList = {'20170226/ex_00001'};
+folderList = {...
+   '20161206/ex_00001',...
+   '20170226/ex_00001',...
+   '20170227/ex_00002',...
+   '20170227/ex_00003',...
+   '20170227/ex_00004',...
+   '20170304/ex_00001',...
+   '20170319/ex_00004'};
 imIndices = [1,30];
-outputFolderPath1 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170226_Nikon/H_12.txt';
-outputFolderPath2 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Camera_Alignment/20170226_Nikon/H_i0.txt';
+outputFolderPath1 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Registration/dslr/20170403_Nikon/H_12.txt';
+outputFolderPath2 = '/Users/ericcristofalo/Dropbox/PhD/Research/2017_Depth_From_Focus/Registration/dslr/20170403_Nikon/H_i0.txt';
 
 % Total Indices Number
 totalInd = diff(imIndices)+1;
@@ -45,8 +52,8 @@ imageDecimals = ['%0',num2str(imageDigits),'d'];
 % Homography Initialization
 matchType = 'BruteForce';
 descriptorType = 'SIFT';
-options = {'im1Warped','imMatches','imHomography'};
-% options = {}; % no output image
+% options = {'im1Warped','imMatches','imHomography'};
+options = {}; % no output image
 
 % Initialization
 imTotal = struct;
@@ -73,20 +80,17 @@ for imInd = imIndices(1):imIndices(2)
    imPath = [folderName,imageName,num2str(imInd,imageDecimals),imageExt];
    im = imread(imPath);
    
-   % Resize Image
-   dSize = 1/3.3;
-   imSize = size(im(:,:,1));
-   imSize = ceil(dSize*imSize(1:2));
-   im = cv.resize(im, [imSize(2),imSize(1)]);
-   
+%    % Resize Image
+%    dSize = 0.1;
+%    imSize = size(im(:,:,1));
+%    imSize = ceil(dSize*imSize(1:2));
+%    im = cv.resize(im, [imSize(2),imSize(1)]);
+%    
    % Save Image
-   if trialInd==1
-      imTotal(loopInd).im = im;
-   end
+   imTotal(loopInd).im = im;
    
    % Align Images to First Image
-   if imInd==imIndices(1)
-   else
+   if imInd~=imIndices(1)
       % Compute Interimage Homography
       [H_12,outputs] = computeHomography(matchType, descriptorType,...
       	im, imTotal(loopInd-1).im, options);   

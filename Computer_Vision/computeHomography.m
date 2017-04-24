@@ -2,7 +2,7 @@
 %
 % File Name:      computeHomography.m
 % Date Created:   2016/04/28
-% Date Modified:  2016/05/02
+% Date Modified:  2017/04/07
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -63,18 +63,21 @@ totalOptions = {'Fundamental',...
                 'imHomography'};
 outputs = struct;
 matcher = cv.DescriptorMatcher(matchType);
-% detector = cv.FeatureDetector(descriptorType);
+detector = cv.FeatureDetector(descriptorType);
 extractor = cv.DescriptorExtractor(descriptorType);
 
 % Extract Keypoints and Descriptors
-% keypoints1 = detector.detect(im1);
-% keypoints2 = detector.detect(im2);
+keypoints1 = detector.detect(im1);
+keypoints2 = detector.detect(im2);
 % keypoints1 = cv.SIFT(im1,'NFeatures',500);
 % keypoints2 = cv.SIFT(im2,'NFeatures',500);
-keypoints1 = cv.SURF(im1);
-keypoints2 = cv.SURF(im2);
+% keypoints1 = cv.SURF(im1);
+% keypoints2 = cv.SURF(im2);
 descriptors1 = extractor.compute(im1, keypoints1);
 descriptors2 = extractor.compute(im2, keypoints2);
+
+% % Save Keypoints and Descriptors
+% outputs.keypoints
 
 % Match Descriptors: (local, remote) or (object, scene)
 queryDescriptors = descriptors1;
