@@ -217,10 +217,11 @@ for i = figureRange
       set(gcf, 'color', 'w');
       path = [path,'jpg'];
       print(i,path,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
-   elseif strcmp(extension,'png') || (strcmp(extension,'pdf') && transparency(figureInd)==1)
+   elseif strcmp(extension,'png') || ((strcmp(extension,'pdf') && transparency(figureInd)==1))
       if transparency(figureInd)==1
          set(gca, 'color', 'none');
-         set(gcf, 'color', 'none');
+%          set(gcf, 'color', 'none');
+         set(gcf,'color','w');
       else
          set(gca, 'color', 'w');
          set(gcf, 'color', 'w');
