@@ -2,7 +2,7 @@
 %
 % File Name:      rotMat.m
 % Date Created:   2014/04/07
-% Date Modified:  2014/07/21
+% Date Modified:  2017/09/19
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -22,14 +22,11 @@
 function  R = rotMat(varargin)
 
 if nargin==1
-   
    % Planar Rotation Matrix
    angle = varargin{1};
    R = [cos(angle)  -sin(angle);
         sin(angle)   cos(angle)];
-   
 elseif nargin==2
-   
    % 3D Rotation Matrix
    angle = varargin{1};
    axis = varargin{2};
@@ -47,7 +44,8 @@ elseif nargin==2
               sin(angle)  cos(angle)  0          ;
               0           0           1          ];
    end
-   
+else
+  error('Error in rotMat.m: wrong number of inputs');
 end
 
 end

@@ -2,12 +2,12 @@
 %
 % File Name:      starup.m
 % Date Created:   2013/09/03
-% Date Modified:  2016/09/08
+% Date Modified:  2017/08/04
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
 %
-% Description:    MATLAB's default start program
+% Description:    My MATLAB's default start program
 %
 % Inputs:         
 %
@@ -16,6 +16,29 @@
 %--------------------------------------------------------------------------
 
 warning on backtrace
+
+%% Add Paths
+
+% Add My Own MATLAB Functions
+addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions'));
+% Mexopencv
+addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopencv'));
+% Manopt
+addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/manopt'));
+
+% For Issues with Paths
+% restoredefaultpath
+% savepath
+
+
+%% Set Default Current Working Directory
+
+cd /Users/ericcristofalo/Dropbox/PhD
+
+
+%% Set MATLAB Variables
+
+% userpath = '/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions/MATLAB';
 
 
 %% Friendly Welcome Message
@@ -123,34 +146,4 @@ if curTime(2)==12 && curTime(3)==31
 end
 
 clear all
-
-
-%% Add mexopencv Libraries
-
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopencv-master'));
-
-
-%% Add My Own MATLAB Functions
-
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions'));
-
-
-%% Set Default Current Working Directory
-
-cd /Users/ericcristofalo/Dropbox/PhD
-
-
-%% For Issues with Paths
-
-% restoredefaultpath
-% savepath
-
-
-
-
-
-
-
-
-
 

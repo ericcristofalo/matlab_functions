@@ -29,11 +29,11 @@
 %
 %--------------------------------------------------------------------------
 
-function [X,Y] = randGauss(U_R,U_theta)
+function [X] = randGauss(U_R,U_theta)
 
 theta = U_theta.*(2*pi);      % Uniform distributed R.V. theta
 R = (-2*log(1-U_R)).^(1/2);   % Rayleigh distributed R.V. R
 X = R.*cos(theta);            % Gaussian distributed R.V. X
-Y = R.*sin(theta);            % Gaussian distributed R.V. Y
+% Y = R.*sin(theta);            % Gaussian distributed R.V. Y
 
 end

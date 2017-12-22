@@ -2,7 +2,7 @@
 %
 % File Name:      plotCoordSys.m
 % Date Created:   2014/11/15
-% Date Modified:  2016/09/01
+% Date Modified:  2017/08/04
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -14,34 +14,81 @@
 % Inputs:         pose: vector with the entires [x; y; z; phi; theta; psi]
 %                       Pose is w.r.t. the world frame, angles are measured  
 %                       in radians.
+%                 name: robot name for text plot if desired
 %                 diameter: diameter of centroid sphere
 %                 color: vector denoting color of centroid sphere [0,0,0]
+%                 alpha: scale for orthogonal line colors
 %                 arrowLength: desired arrow length.
 %                 lineThick: desired line thickness.
 %
-% Outputs:        plot
+% Outputs:        the plot
 %
-% Example:        plotCoordSys([1; 1; -1; 0.1; 0.1; 0.7],100,[1,0,0],0.5,1);
+% Example:        plotCoordSys([1; 1; -1; 0.1; 0.1; 0.7],1,100,[1,0,0],1,0.5,1);
 %
 %--------------------------------------------------------------------------
 
-function plotCoordSys(pose, diameter , color, arrowLength, lineThick)
+function [h] = plotCoordSys(pose, name, diameter , color, alpha, arrowLength, lineThick)
+
+% Size of Problem
+if ( size(pose,1)==3 )
+  d = 2;
+  r_ind = 3;
+elseif ( size(pose,1)==6 )
+  d = 3;
+  r_ind = 4:6;
+else
+  error('Error in plotCoordSys.m: wrong size of pose vector. Must be either length 3 or length 6.');
+end
 
 % Plot Coordinate System Orientation
-R_wr = euler2rot(pose(4:6));
-vecColor = [1,0,0; 0,1,0; 0,0,1];
-for i = 1:3 % for each direction (x,y,z)
-   dirVec = [0;0;0]; % current axis direction vector
-   dirVec(i) = 1;
-   dirVec = R_wr*dirVec;
-   quiver3(pose(1),pose(2),pose(3),...
-           dirVec(1),dirVec(2),dirVec(3),...
-           arrowLength,'color',vecColor(i,:),...
-           'LineWidth',lineThick);
+R_wr = euler2rot(pose(r_ind));
+vecColor = [1,alpha,alpha; alpha,1,alpha; alpha,alpha,1];
+for i = 1:d % for each direction (x,y,z)
+  dirVec = zeros(d,1); % current axis direction vector
+  dirVec(i) = arrowLength;
+  dirVec = R_wr*dirVec;
+  if ( d==2 )
+%     quiver(pose(1),pose(2),...
+%            dirVec(1),dirVec(2),...
+%            arrowLength,'color',vecColor(i,:),...
+%            'LineWidth',lineThick);
+    plot([pose(1),pose(1)+dirVec(1)],...
+         [pose(2),pose(2)+dirVec(2)],...
+         'color',vecColor(i,:),...
+         'LineWidth',lineThick);
+  elseif ( d==3 )
+%     quiver3(pose(1),pose(2),pose(3),...
+%             dirVec(1),dirVec(2),dirVec(3),...
+%             arrowLength,'color',vecColor(i,:),...
+%             'LineWidth',lineThick);
+    plot3([pose(1),pose(1)+dirVec(1)],...
+          [pose(2),pose(2)+dirVec(2)],...
+          [pose(3),pose(3)+dirVec(3)],...
+          'color',vecColor(i,:),...
+          'LineWidth',lineThick);
+  end
 end
 
 % Plot Coordinate System Position
-scatter3(pose(1,1),pose(2,1),pose(3,1),diameter,color,'Fill');
+if ( d==2 )
+  scatter(pose(1,1),pose(2,1),diameter,color,'Fill');
+elseif (d==3)
+  scatter3(pose(1,1),pose(2,1),pose(3,1),diameter,color,'Fill');
+end
+
+% Plot Coordinate System ID Text
+offset = arrowLength/4.0;
+tempPose = R_wr*offset*ones(3,1);
+if ( d==2 )
+  h = text(pose(1)+tempPose(1),...
+           pose(2)+tempPose(2),...
+  name,'HorizontalAlignment','left','FontSize',12,'Interpreter','LaTex');
+elseif (d==3)
+  h = text(pose(1)+tempPose(1),...
+           pose(2)+tempPose(2),...
+           pose(3)+tempPose(3),...
+  name,'HorizontalAlignment','left','FontSize',12,'Interpreter','LaTex');
+end
 
 end
 
