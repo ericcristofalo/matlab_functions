@@ -2,7 +2,7 @@
 %
 % File Name:      scale2RGB.m
 % Date Created:   2016/08/05
-% Date Modified:  2017/02/27
+% Date Modified:  2018/01/02
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -59,20 +59,35 @@ if strcmp(colorDirection,'red2blue')
    map = flipud(map);
 end
 
-% Add Zero Color
-map = [0,0,0; map];
-
 % Define Image Colors Based on Color Map
+addZeroValue = 0;
+imZeroOut = zeros(size(imGray));
 if ~isempty(valueBounds)
    imGrayMax = valueBounds(2);
    imGrayMin = valueBounds(1);
+   % Add Color for Zero Values if There Are Values < imGrayMin or >
+   % imGrayMax
+   if (min(imGray(:))<imGrayMin || max(imGray(:))>imGrayMax)
+      imZeroOut = (imGray<imGrayMin | imGray>imGrayMax);
+      addZeroValue = 1;
+   end
 else
    imGrayMax = max(imGray(:));
-   temp = imGray~=0;
    imGrayMin = min(imGray(:));
+   % Add Color for Zero Values if There Are Values <=0
+   if (imGrayMin<=0)
+      imZeroOut = imGray<=0;
+      addZeroValue = 1;
+      imGrayMin = min(imGray(imGray>0));
+   end
 end
-imGrayInt = linInt(double(imGrayMin),0,double(imGrayMax),colormapSize(1),double(imGray));
-imGrayInt = ceil(imGrayInt)+1;
+imGrayInt = linInt(double(imGrayMin),1,double(imGrayMax),colormapSize(1),double(imGray));
+imGrayInt = round(imGrayInt);
+if (addZeroValue)
+   imGrayInt = imGrayInt+1;
+   map = [0,0,0; map];
+   imGrayInt(imZeroOut) = 1;
+end
 
 % Output Image
 imGraySize = size(imGray);

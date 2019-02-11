@@ -2,7 +2,7 @@
 %
 % File Name:      saveFigures.m
 % Date Created:   2014/07/03
-% Date Modified:  2017/04/14
+% Date Modified:  2018/02/04
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -49,12 +49,12 @@ function saveFigures(varargin)
 
 % Check for Logical Input Arguments
 if mod(nargin,2) ~= 0
-   error('Not enough input arguments')
+   error('Error in saveFigures.m: Not enough input arguments')
 end
 
 % Create Specific Figure Filepath if None Exists in Current Directory
-if exist([pwd,'/Figures'],'file')~=7
-   mkdir('Figures')
+if exist([pwd,'/figures'],'file')~=7
+   mkdir('figures')
 end
 
 % Set Options Depending on Number of Input Arguements
@@ -181,6 +181,13 @@ for i = figureRange
    % Select Current Figure
    figure(i);
    
+   % Backup Current Figure Settings
+   prePaperType = get(i,'PaperType');
+   prePaperUnits = get(i,'PaperUnits');
+   preUnits = get(i,'Units');
+   prePaperPosition = get(i,'PaperPosition');
+   prePaperSize = get(i,'PaperSize');
+   
    % Set Figure Dimensions
    currentPosition = get(i,'Position');
    if setFigureSize==1 % specify figure size
@@ -206,34 +213,50 @@ for i = figureRange
    end
    
    % Save Figure with Extension Dependent Preferences
-   path = [pwd,'/Figures/',curFigureName,'.'];
+   filePath = [pwd,'/figures/',curFigureName];
    if strcmp(extension,'pdf') && transparency(figureInd)==0
       set(gcf, 'color', 'none');
       set(gca, 'color', 'none');
-      path = [path,extension];
-      saveas(i,path);
+%       filePath = [filePath,'.',extension];
+%       saveas(i,filePath);
+      % Generating Cropped PDF via EPS
+      filePath = [filePath,'.','eps'];
+      print(filePath,'-depsc');
+      % Convert To EPS
+      % second setting is the location of GhostScript on MacOS
+      % Where is GhostScript? $ find / -type l -name gs -print
+      eps2pdf(filePath,'/usr/local/bin/gs');
+      delete(filePath);
    elseif strcmp(extension,'jpg')
       set(gca, 'color', 'w');
       set(gcf, 'color', 'w');
-      path = [path,'jpg'];
-      print(i,path,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
+      filePath = [filePath,'.',extension];
+      print(i,filePath,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
    elseif strcmp(extension,'png') || ((strcmp(extension,'pdf') && transparency(figureInd)==1))
       if transparency(figureInd)==1
          set(gca, 'color', 'none');
-%          set(gcf, 'color', 'none');
+%          set(gcf, 'color', 'none'); % sets entire image to black
          set(gcf,'color','w');
       else
          set(gca, 'color', 'w');
          set(gcf, 'color', 'w');
       end
-      path = [path,'png'];
-      print(i,path,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
+      filePath = [filePath,'.png'];
+      print(i,filePath,'-dpng',['-r',num2str(resolution)],'-opengl') %save file
    elseif strcmp(extension,'eps')
       set(gcf, 'color', 'none');
       set(gca, 'color', 'none');
-      path = [path,extension];
-      saveas(i,path);
+      print(filePath,'-depsc');
    end
+   
+   % Return To Defaults
+   set(gca, 'color', 'default');
+   set(gcf, 'color', 'default');
+   set(i,'PaperType',prePaperType);
+   set(i,'PaperUnits',prePaperUnits);
+   set(i,'Units',preUnits);
+   set(i,'PaperPosition',prePaperPosition);
+   set(i,'PaperSize',prePaperSize);
    
    % Increase Figure Counting Index
    figureInd = figureInd+1;

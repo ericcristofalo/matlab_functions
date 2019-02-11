@@ -23,5 +23,11 @@
 %--------------------------------------------------------------------------
 
 function v = skewSymMatInv(skew)
-   v = [-skew(2,3);skew(1,3);-skew(1,2)];
+   if size(skew,1)==2
+      v = [skew(1,1);-skew(1,2)];
+   elseif size(skew,1)==3
+      v = [-skew(2,3);skew(1,3);-skew(1,2)];
+   else
+      error('Incorrect size matrix input to skewSymMatInv(skew)');
+   end
 end

@@ -2,7 +2,7 @@
 %
 % File Name:      starup.m
 % Date Created:   2013/09/03
-% Date Modified:  2017/08/04
+% Date Modified:  2018/04/05
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -15,16 +15,38 @@
 %
 %--------------------------------------------------------------------------
 
-warning on backtrace
+% warning on backtrace
+% warning on
 
 %% Add Paths
 
 % Add My Own MATLAB Functions
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions'));
+directory = '/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions';
+folders = dir(directory);
+init = 0;
+pathToAdd = [directory,':'];
+for i = 1:length(folders)
+   if ( ~strcmp(folders(i).name(1),'.') )
+%       if (init==0)
+%          pathToAdd = genpath([folders(i).folder,'/',folders(i).name]);
+%          init = 1;
+%       else
+      if ( folders(i).isdir==1 )
+         pathToAdd = [pathToAdd,genpath([folders(i).folder,'/',folders(i).name])];
+      end
+   end
+end
+addpath(pathToAdd);
+
 % Mexopencv
 addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopencv'));
-% Manopt
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/manopt'));
+
+% CVX
+cvx_path = '/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/cvx';
+addpath(genpath(cvx_path));
+rmpath([cvx_path,'/lib/narginchk_:']); % to fix interference with Matlab's legend function
+
+% addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/pdfcrop_v0.4b'));
 
 % For Issues with Paths
 % restoredefaultpath
@@ -42,6 +64,8 @@ cd /Users/ericcristofalo/Dropbox/PhD
 
 
 %% Friendly Welcome Message
+
+clc;
 
 % Current Time
 curTime = clock; %[year month day hour minute seconds]
@@ -145,5 +169,6 @@ if curTime(2)==12 && curTime(3)==31
     disp(' ');disp(' ');disp(' ');
 end
 
-clear all
+clear
 
+% tbxmanager restorepath

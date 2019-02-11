@@ -2,7 +2,7 @@
 %
 % File Name:      rigidBodyTrans
 % Date Created:   2017/08/15
-% Date Modified:  2017/09/19
+% Date Modified:  2018/03/04
 %
 % Author:         Eric Cristofalo
 % Contact:        eric.cristofalo@gmail.com
@@ -56,11 +56,7 @@ if ( size(point,1)==1 ) % use the point from the set of poses
   else % use the ith pose in the set of poses
     if ( point<=size(t,2) )
       t_origin = t(:,point);
-      if d==2
-        ind_frame = [point*d-1, point*d-0];
-      elseif d==3
-        ind_frame = [point*d-2, point*d-1, point*d-0];
-      end
+      ind_frame = (1:d)+(point-1)*d;
       R_w_origin = R(:,ind_frame);
     else
       error('Error in rigidBodyTrans.m: point exceeds dimensions of input t matrix.')
@@ -76,7 +72,7 @@ end
 R_new = zeros(d,d*n);
 t_new = zeros(d,n);
 for i = 1:n
-  ind_i = [i*d-2, i*d-1, i*d-0];
+  ind_i = (1:d)+(i-1)*d;
   R_new(:,ind_i) = R_w_origin*rotation*R_w_origin'*R(:,ind_i);
   t_new(:,i) = t_origin + translation + ...
                R_w_origin*rotation*R_w_origin'*(t(:,i)-t_origin);

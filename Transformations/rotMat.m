@@ -28,8 +28,13 @@ if nargin==1
         sin(angle)   cos(angle)];
 elseif nargin==2
    % 3D Rotation Matrix
-   angle = varargin{1};
-   axis = varargin{2};
+   if ischar(varargin{1})
+      axis = varargin{1};
+      angle = varargin{2};
+   else
+      angle = varargin{1};
+      axis = varargin{2};
+   end
    switch axis
       case 'x'
          R = [1           0           0          ;

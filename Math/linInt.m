@@ -24,5 +24,9 @@
 
 function y = linInt(x1,y1,x2,y2,x)
    xSize = size(x);
-   y = y1*ones(xSize)+(y2-y1)/(x2-x1)*(x-x1*ones(xSize));
+   if (x1==x2)
+      y = y1;
+   else
+      y = y1*ones(xSize)+(y2-y1)/(x2-x1)*(x-x1*ones(xSize));
+   end
 end
