@@ -27,7 +27,7 @@
 %
 %--------------------------------------------------------------------------
 
-function [h] = plotCoordSys(pose, name, diameter , color, alpha, arrowLength, lineThick)
+function [h] = plotCoordSys(pose, name, diameter, color, alpha, arrowLength, lineThick)
 
 % Size of Problem
 if ( size(pose,1)==3 )
@@ -42,7 +42,7 @@ end
 
 % Plot Coordinate System Orientation
 R_wr = euler2rot(pose(r_ind));
-vecColor = [1,alpha,alpha; alpha,1,alpha; alpha,alpha,1];
+vecColor = [1,0,0,alpha; 0,1,0,alpha; 0,0,1,alpha];
 for i = 1:d % for each direction (x,y,z)
   dirVec = zeros(d,1); % current axis direction vector
   dirVec(i) = arrowLength;
@@ -71,14 +71,19 @@ end
 
 % Plot Coordinate System Position
 if ( d==2 )
-  scatter(pose(1,1),pose(2,1),diameter,color,'Fill');
-elseif (d==3)
-  scatter3(pose(1,1),pose(2,1),pose(3,1),diameter,color,'Fill');
+   if ( diameter~=0 )
+      scatter(pose(1,1),pose(2,1),diameter,color,'Fill');
+   end
+elseif ( d==3 )
+   if ( diameter~=0 )
+      scatter3(pose(1,1),pose(2,1),pose(3,1),diameter,color,'Fill');
+   end
 end
 
 % Plot Coordinate System ID Text
-offset = arrowLength/4.0;
-tempPose = R_wr*offset*ones(3,1);
+offset = arrowLength/2.0;
+% tempPose = R_wr*offset*ones(3,1);
+tempPose = offset*[1;0;1];
 if ( d==2 )
   h = text(pose(1)+tempPose(1),...
            pose(2)+tempPose(2),...

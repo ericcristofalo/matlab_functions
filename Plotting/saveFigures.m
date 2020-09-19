@@ -221,11 +221,12 @@ for i = figureRange
 %       saveas(i,filePath);
       % Generating Cropped PDF via EPS
       filePath = [filePath,'.','eps'];
-      print(filePath,'-depsc');
+      print(filePath,'-depsc2');
       % Convert To EPS
       % second setting is the location of GhostScript on MacOS
       % Where is GhostScript? $ find / -type l -name gs -print
-      eps2pdf(filePath,'/usr/local/bin/gs');
+%       eps2pdf(filePath,'/usr/local/bin/gs');
+      eps2pdf(filePath,'/home/ericcristofalo/Software/ghostscript-9.52-linux-x86_64/gs-952-linux-x86_64');
       delete(filePath);
    elseif strcmp(extension,'jpg')
       set(gca, 'color', 'w');

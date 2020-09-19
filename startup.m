@@ -21,7 +21,7 @@
 %% Add Paths
 
 % Add My Own MATLAB Functions
-directory = '/Users/ericcristofalo/Dropbox/PhD/Research/Functions/matlab_functions';
+directory = '/home/ericcristofalo/Documents/matlab_functions/matlab_functions';
 folders = dir(directory);
 init = 0;
 pathToAdd = [directory,':'];
@@ -39,12 +39,12 @@ end
 addpath(pathToAdd);
 
 % Mexopencv
-addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopencv'));
+% addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/mexopencv'));
 
-% CVX
-cvx_path = '/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/cvx';
-addpath(genpath(cvx_path));
-rmpath([cvx_path,'/lib/narginchk_:']); % to fix interference with Matlab's legend function
+% % CVX
+% cvx_path = '/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/cvx';
+% addpath(genpath(cvx_path));
+% rmpath([cvx_path,'/lib/narginchk_:']); % to fix interference with Matlab's legend function
 
 % addpath(genpath('/Users/ericcristofalo/Dropbox/PhD/Research/Open_Source/pdfcrop_v0.4b'));
 
@@ -55,7 +55,7 @@ rmpath([cvx_path,'/lib/narginchk_:']); % to fix interference with Matlab's legen
 
 %% Set Default Current Working Directory
 
-cd /Users/ericcristofalo/Dropbox/PhD
+cd /home/ericcristofalo/Documents
 
 
 %% Set MATLAB Variables
